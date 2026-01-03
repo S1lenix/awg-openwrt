@@ -203,5 +203,5 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: awgrelease/*.apk
+          files: awgrelease/*
           tag_name: v${{ matrix.build_env.tag }}
