@@ -35,12 +35,12 @@ AmneziaWG - это улучшенный WireGuard с дополнительны�
 
 ### Ручная установка
 
-1. Перейдите в [Releases](https://github.com/YOUR_USERNAME/awg-openwrt/releases) и скачайте .apk-файлы для вашей версии (например, из релиза v25.12.0-rc4).
+1. Перейдите в [Releases](https://github.com/S1lenix/awg-openwrt/releases) и скачайте .apk-файлы для вашей версии (например, из релиза v25.12.0-rc4).
 2. Перенесите файлы на роутер (например, через SCP).
 3. Установите пакеты:
 
    ```bash
-   apk add kmod-amneziawg_*.apk amneziawg-tools_*.apk luci-proto-amneziawg_*.apk luci-i18n-amneziawg-ru_*.apk
+   apk add --allow-untrusted kmod-amneziawg_*.apk amneziawg-tools_*.apk luci-proto-amneziawg_*.apk luci-i18n-amneziawg-ru_*.apk
    ```
 
 4. Перезагрузите роутер или сервис: `/etc/init.d/network restart`.
