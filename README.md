@@ -28,7 +28,7 @@ AmneziaWG - это улучшенный WireGuard с дополнительны�
 2. Выполните команду для скачивания и запуска скрипта установки:
 
    ```bash
-   wget -O - https://raw.githubusercontent.com/YOUR_USERNAME/awg-openwrt/master/amneziawg-install.sh | sh
+   wget -O - https://raw.githubusercontent.com/S1lenix/awg-openwrt/master/amneziawg-install.sh | sh
    ```
 
    Скрипт автоматически определит вашу версию OpenWrt и архитектуру, скачает нужные .apk из релизов этого репозитория и установит их с помощью `apk add`.
