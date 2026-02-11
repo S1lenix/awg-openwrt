@@ -1,130 +1,75 @@
-# AmneziaWG for OpenWrt 25.12.x (SNR AX2)
+# AmneziaWG for OpenWrt
 
-![OpenWrt](https://img.shields.io/badge/OpenWrt-25.12.x-blue)
-![Platform](https://img.shields.io/badge/Platform-mediatek%2Ffilogic-orange)
-![Manager](https://img.shields.io/badge/Packages-apk-green)
-![Status](https://img.shields.io/badge/Status-Release--grade-success)
+[![GitHub Release](https://img.shields.io/github/v/release/<your_username>/awg-openwrt?include_prereleases&label=Release)](https://github.com/<your_username>/awg-openwrt/releases)  
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/<your_username>/awg-openwrt/build-module.yml?label=Build)](https://github.com/<your_username>/awg-openwrt/actions)  
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
----
+## Описание
 
-## 🇷🇺 Описание
+Это форк оригинального репозитория [Slava-Shchipunov/awg-openwrt](https://github.com/Slava-Shchipunov/awg-openwrt), адаптированный для поддержки OpenWrt версии 25.12.0-rc4 под архитектурой qualcommax/ipq807x. Основная цель - предоставить готовые пакеты AmneziaWG (kmod-amneziawg, amneziawg-tools, luci-proto-amneziawg и luci-i18n-amneziawg-ru) в формате .apk для этой конкретной платформы.
 
-**AmneziaWG** — это сборка WireGuard‑совместимого VPN (AWG 2.0) для **OpenWrt 25.12.x**, ориентированная на конкретную модель роутера **SNR AX2**.
+AmneziaWG - это улучшенный WireGuard с дополнительными функциями для обхода цензуры и повышения приватности. Подробнее о протоколе можно узнать в [официальной документации Amnezia](https://amnezia.org/).
 
-⚠️ Это **форк оригинального репозитория**:
-[https://github.com/Slava-Shchipunov/awg-openwrt](https://github.com/Slava-Shchipunov/awg-openwrt)
+**Важно:** Это не официальный репозиторий. Все изменения сделаны для удобства пользователей с qualcommax/ipq807x (например, для роутеров вроде ZTE MF269 или аналогичных). Если вы используете другую архитектуру, вернитесь к оригиналу или адаптируйте форк под себя.
 
-Проект использует **универсальный install‑скрипт**, который автоматически определяет версию OpenWrt и устанавливает подходящие `.apk`‑пакеты из GitHub Releases.
+## Поддерживаемые версии и архитектуры
 
----
+- **OpenWrt версия:** 25.12.0-rc4 (и потенциально другие 25.x с минимальными изменениями)
+- **Target/Subtarget:** qualcommax/ipq807x
+- **Формат пакетов:** .apk (из-за перехода OpenWrt на apk в 25.x)
 
-## 🇬🇧 Description
+Для других архитектур (например, mediatek/filogic) проверьте форки вроде [pro100it/awg-openwrt](https://github.com/pro100it/awg-openwrt) или [tkkost/awg-openwrt](https://github.com/tkkost/awg-openwrt).
 
-**AmneziaWG** is a WireGuard‑compatible VPN build (AWG 2.0) for **OpenWrt 25.12.x**, specifically targeting the **SNR AX2** router.
+## Установка
 
-⚠️ This is a **fork of the original repository**:
-[https://github.com/Slava-Shchipunov/awg-openwrt](https://github.com/Slava-Shchipunov/awg-openwrt)
+### Автоматическая установка через скрипт
 
-The project uses a **single universal install script** that automatically detects the OpenWrt version and installs the correct `.apk` packages from GitHub Releases.
+1. Подключитесь к вашему роутеру по SSH.
+2. Выполните команду для скачивания и запуска скрипта установки:
 
----
+   ```bash
+   wget -O - https://raw.githubusercontent.com/<your_username>/awg-openwrt/master/amneziawg-install.sh | sh
+   ```
 
-## 📌 Поддержка / Support
+   Скрипт автоматически определит вашу версию OpenWrt и архитектуру, скачает нужные .apk из релизов этого репозитория и установит их с помощью `apk add`.
 
-### ✅ Поддерживается / Supported
+### Ручная установка
 
-* **OpenWrt:** `25.12.0-rc1`, `25.12.0-rc2`, `25.12.0-rc3`, `25.12.0-rc4`
-* **Device / Устройство:** SNR AX2
-* **Target:** `mediatek / filogic`
-* **AmneziaWG:** 2.0
-* **Package format:** `.apk`
-* **Package manager:** `apk`
+1. Перейдите в [Releases](https://github.com/<your_username>/awg-openwrt/releases) и скачайте .apk-файлы для вашей версии (например, из релиза v25.12.0-rc4).
+2. Перенесите файлы на роутер (например, через SCP).
+3. Установите пакеты:
 
-### ❌ Не поддерживается / Not supported
+   ```bash
+   apk add kmod-amneziawg_*.apk amneziawg-tools_*.apk luci-proto-amneziawg_*.apk luci-i18n-amneziawg-ru_*.apk
+   ```
 
-* Другие устройства OpenWrt
-* Другие версии OpenWrt
+4. Перезагрузите роутер или сервис: `/etc/init.d/network restart`.
 
-Использование на других платформах возможно **на ваш страх и риск**.
+### Требования
 
-Using this build on other devices or OpenWrt versions is **at your own risk**.
+- OpenWrt 25.12.0-rc4 (или совместимая) на qualcommax/ipq807x.
+- Убедитесь, что у вас установлен apk (стандартно в 25.x).
+- Если возникнут ошибки зависимостей (например, kernel), скачайте kernel.apk с [downloads.openwrt.org](https://downloads.openwrt.org/releases/25.12.0-rc4/targets/qualcommax/ipq807x/kmods/).
 
----
+## Сборка пакетов
 
-## 📦 Установка / Installation
+Если нужно собрать пакеты для другой версии или архитектуры:
 
-### 🔹 Вариант 1 — вручную / Manual
+1. Форкните этот репозиторий.
+2. Перейдите в Actions и запустите workflow "Create Release on Tag".
+3. Укажите параметры: version (например, 25.12.0-rc4), targets (qualcommax), subtargets (ipq807x).
+4. Через 10-15 минут пакеты появятся в Releases.
 
-1. Перейдите в раздел **GitHub Releases**
-2. Скачайте все `.apk` файлы, соответствующие вашей версии OpenWrt
-3. Установите их на роутере:
+Подробности в [.github/workflows/build-module.yml](.github/workflows/build-module.yml).
 
-```sh
-apk add --allow-untrusted *.apk
-```
+## Вклад и проблемы
 
----
+- Это форк, так что основные изменения вносите в оригинальный репозиторий [Slava-Shchipunov/awg-openwrt](https://github.com/Slava-Shchipunov/awg-openwrt).
+- Если нашли баг или хотите добавить поддержку другой архитектуры, создайте Issue или Pull Request здесь.
+- Смотрите открытые Issues в оригинале, например, [#76](https://github.com/Slava-Shchipunov/awg-openwrt/issues/76) по поддержке 25.12.
 
-### 🔹 Вариант 2 — универсальный скрипт (рекомендуется) / Universal script (recommended)
+## Лицензия
 
-Скрипт автоматически:
+Этот проект распространяется под лицензией MIT, как и оригинал. Подробности в [LICENSE](LICENSE).
 
-* определяет версию OpenWrt
-* определяет target устройства
-* загружает нужные пакеты из Releases
-
-The script automatically:
-
-* detects OpenWrt version
-* detects device target
-* downloads the correct packages from Releases
-
-```sh
-sh <(wget -O - https://raw.githubusercontent.com/pro100it/awg-openwrt/master/amneziawg-install.sh)
-```
-
-Поддерживаемые версии / Supported versions:
-
-* `25.12.0-rc1`
-* `25.12.0-rc2`
-* `25.12.0-rc3`
-* `25.12.0-rc4`
-
----
-
-## ⚙️ Настройка / Configuration
-
-После установки настройка выполняется через **LuCI**:
-
-```
-Network → Interfaces → AmneziaWG
-```
-
-After installation, configure via **LuCI**:
-
-```
-Network → Interfaces → AmneziaWG
-```
-
----
-
-## ℹ️ Примечания / Notes
-
-* Используется **один универсальный install‑скрипт**
-* При выходе новых `rc`‑версий OpenWrt обновление скрипта **не требуется**
-* Пакеты загружаются напрямую из **GitHub Releases**
-
----
-
-## ⚠️ Disclaimer
-
-Этот проект предоставляется **как есть**, без каких‑либо гарантий.
-
-This project is provided **as is**, without any warranty.
-
----
-
-## Credits
-
-* Original project: **Slava‑Shchipunov**
-* Fork & automation: **pro100it**
+Благодарности: @Slava-Shchipunov за оригинальный код, @pro100it за вдохновение на адаптацию для 25.x.
